@@ -472,53 +472,317 @@ int main() {
 ```
 
 ## 课后习题
-1.说明如下：
-1. 
-2. 
-3. 
-4. 
+1.解析：
+```c
+#include <stdio.h>
+
+int f1 (int p) {
+    return p++;
+}
+
+int f2 (int *p) {
+    return *(p++);
+}
+
+int f3 (int *p) {
+    return (*p)++;
+}
+
+int *f4 (int *p) {
+    return p++;
+}
+
+int main() {
+    int n = 4;
+    int *p = &n;
+    printf("%d\n", f1(n)); // 4
+    printf("%d\n", n); // 4
+    printf("%d\n", f2(p)); // 4
+    printf("%d\n", n); // 4
+    printf("%d\n", f3(p)); // 4
+    printf("%d\n", n); // 5
+    printf("%d\n", *f4(p)); // 5
+    printf("%d\n", n); // 5
+    return 0;
+}
+```
+说明如下：
+- (1) 值传递，改变的作用域在函数内部
+- (2) 地址++但不会返回，返回的是原地址，原值也不变
+- (3) 引用传递，值++且会直接改到地址里
+- (4) 指针++然后返回指针其实没有作用
 
 2.代码如下：
 ```c
+#include <stdio.h>
 
+int main() {
+    int a = 1, b = 2;
+    int *pa = &a, *pb = &b;
+    printf("%d, %d\n", *pa, *pb);
+    printf("%d + %d = %d\n", *pa, *pb, *pa + *pb);
+    printf("%d - %d = %d\n", *pa, *pb, *pa - *pb);
+    printf("%d * %d = %d\n", *pa, *pb, *pa * *pb);
+    printf("%d / %d = %d\n", *pa, *pb, *pa / *pb);
+    return 0;
+}
 ```
 
 3.代码如下：
 ```c
+#include <stdio.h>
 
+void multiplyArray(int *a, int m) {
+    for (int i = 0; i < 10; i++) {
+        *(a+i) *= m;
+    }
+}
+
+int main() {
+    int a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    multiplyArray(a, 5);
+    for (int i = 0; i < 10; i++) {
+        printf("%d ", a[i]);
+    }
+    return 0;
+}
 ```
 
 4.代码如下：
 ```c
+#include <stdio.h>
 
+void getData(int *a, int num);
+
+void reverse(int *a, int num);
+
+void showData(int *a, int num);
+
+int main() {
+    int a[10];
+    getData(a, 10);
+    reverse(a, 10);
+    showData(a, 10);
+    return 0;
+}
+
+void getData(int *a, int num) {
+    for (int i = 0; i < num; i++) {
+        scanf("%d", a+i);
+    }
+}
+
+void reverse(int *a, int num) {
+    for (int i = 0; i < num/2; i++) {
+        int temp = *(a+i);
+        *(a+i) = *(a+9-i);
+        *(a+9-i) = temp;
+    }
+}
+
+void showData(int *a, int num) {
+    for (int i = 0; i < num; i++) {
+        printf("%d ", *(a+i));
+    }
+}
 ```
 
 5.代码如下：
 ```c
+#include <stdio.h>
 
+int max(int a[], int n, int *p) {
+    int max = a[0], i;
+    for (i = 0; i < n; i++) {
+        if (a[i] > max) {
+            max = a[i];
+            *p = i;
+        }
+    }
+    return max;
+}
+
+int min(int a[], int n, int *p) {
+    int min = a[0], i;
+    for (i = 0; i < n; i++) {
+        if (a[i] < min) {
+            min = a[i];
+            *p = i;
+        }
+    }
+    return min;
+}
+
+int main() {
+    int a[10] = {1, 22, 3, 4, 155, -6, 7, 8888, 9, 1}, index = 0;
+    int *p = &index;
+    int max_num = max(a, 10, p);
+    printf("最大值的值是：%d，位置是：%d\n", max_num, *p);
+    int min_num = min(a, 10, p);
+    printf("最小值的值是：%d，位置是：%d\n", min_num, *p);
+    return 0;
+}
 ```
 
 6.代码如下：
 ```c
+#include <stdio.h>
 
+void myitoa(int n, char *str) {
+    int i = 0;
+    while (n != 0) {
+        str[i] = (char)(n / 10 + '0');
+        n /= 10;
+        i++;
+    }
+}
+
+int main() {
+    int n = 10;
+    // 考虑到int上限
+    char str[15];
+    myitoa(n, str);
+    printf("%s", str);
+    return 0;
+}
 ```
 
 7.代码如下：
 ```c
+#include <stdio.h>
 
+void rotateArray(int *a, int m, int n) {
+    // 这里是一个细节，要小心n大于m
+    n %= m;
+    int temp[m];
+    for (int i = 0; i < n; i++) {
+        temp[i] = a[m-n+i];
+    }
+    // 一定要倒着来
+    for (int i = m-n-1; i >= 0; i--) {
+        a[n+i] = a[i];
+    }
+    for (int i = 0; i < n; i++) {
+        a[i] = temp[i];
+    }
+}
+
+int main() {
+    int n = 10;
+    int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+    for (int i = 0; i < 10; i++) {
+        printf("%d ", a[i]);
+    }
+    rotateArray(a, 10, 3);
+    printf("\n");
+    for (int i = 0; i < 10; i++) {
+        printf("%d ", a[i]);
+    }
+    return 0;
+}
 ```
 
-8.代码如下：
+8.代码如下(题目要求的int[][]形参是不符合要求的，应该传指针)：
 ```c
+#include <stdio.h>
 
+void fun(int *a, int n, int m, int *odd, int *even) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (*(a+i*m+j) % 2 == 0) {
+                (*even)++;
+            } else {
+                (*odd)++;
+            }
+        }
+    }
+}
+
+int main() {
+    int n = 4, m = 3, odd = 0, even = 0, *odd_ptr = &odd, *even_ptr = &even;
+    int a[4][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 15}};
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            printf("%d ", a[i][j]);
+        }
+    }
+    fun(a, n, m, odd_ptr, even_ptr);
+    printf("\n偶数个数为%d，奇数个数为%d\n", even, odd);
+    return 0;
+}
 ```
 
 9.代码如下：
 ```c
+#include <stdio.h>
+#include <string.h>
 
+int strCount(char *str1, char *str2) {
+    int counter = 0;
+    int len1 = strlen(str1), len2 = strlen(str2), flag = 1, i, j;
+    for (i = 0; i <= len1-len2; i++) {
+        flag = 1;
+        for (j = 0; j < len2; j++) {
+            if (str1[i+j] != str2[j]) {
+                flag = 0;
+                break;
+            }
+        }
+        if (flag) {
+            counter++;
+        }
+    }
+    return counter;
+}
+
+int main() {
+    char str1[] = "howareyouareGGGare", str2[] = "are";
+    printf("\"%s\"在\"%s\"内出现的次数是%d", str2, str1, strCount(str1, str2));
+    return 0;
+}
 ```
 
 10.代码如下：
 ```c
+#include <stdio.h>
+#include <string.h>
 
+char *strToS(char *str) {
+    int length = strlen(str), newLength = 0, i = 0, j = 0;
+    char result[length], firstChar, tempChar, *ptr;
+    for (i = 0; i < length; i++) {
+        tempChar = str[i];
+        if (tempChar == ' ') {
+            if (j > 3) {
+                result[newLength] = firstChar > 'a' ? firstChar-('a'-'A') : firstChar;
+                newLength++;
+            }
+            j = 0;
+        } else {
+            if (j == 0) {
+                firstChar = tempChar;
+            }
+            j++;
+        }
+    }
+    if (j > 3) {
+        result[newLength] = firstChar > 'a' ? firstChar-('a'-'A') : firstChar;
+        newLength++;
+    }
+    if (newLength == 0) {
+        return "null";
+    }
+    ptr = result;
+    return ptr;
+}
+
+int main() {
+    char str[] = "I love you very much", *result = strToS(str);
+    if (strcmp(result, "null") == 0) {
+        printf("%s找不到合适的缩写字符串", str);
+    } else {
+        printf("%s的缩写字符串是：%s", str, result);
+    }
+    return 0;
+}
 ```
