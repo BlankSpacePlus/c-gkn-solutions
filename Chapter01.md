@@ -164,3 +164,7 @@ int main() {
     return 0;
 }
 ```
+
+[Chapter02 信息编码与数据类型](/Chapter02.md)
+
+[返回首页](/README.md)
