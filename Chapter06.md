@@ -172,6 +172,20 @@ int main() {
 int main() {
     int n = 3, flag = 1;
     int a[3][3] = {{4, 9, 2}, {3, 5, 7}, {8, 1, 6}};
+    int store[n*n], store_ptr = 0, store_temp;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            store_temp = a[i][j];
+            for (int k = 0; k < store_ptr; k++) {
+                if (store[k] == store_temp) {
+                    flag = 0;
+                    goto RES;
+                }
+            }
+            store[store_ptr] = store_temp;
+            store_ptr++;
+        }
+    }
     int sum = 0, temp = 0;
     for (int i = 0; i < n; i++) {
         sum += a[i][0];
@@ -182,7 +196,7 @@ int main() {
         }
         if (temp != sum) {
             flag = 0;
-            break;
+            goto RES;
         }
         temp = 0;
     }
@@ -192,7 +206,7 @@ int main() {
         }
         if (temp != sum) {
             flag = 0;
-            break;
+            goto RES;
         }
         temp = 0;
     }
@@ -201,6 +215,7 @@ int main() {
     }
     if (temp != sum) {
         flag = 0;
+        goto RES;
     }
     temp = 0;
     for (int i = 0; i < n; i++) {
@@ -209,6 +224,7 @@ int main() {
     if (temp != sum) {
         flag = 0;
     }
+    RES:
     printf("此矩阵%s幻方\n", (flag ? "是" : "不是"));
     return 0;
 }
