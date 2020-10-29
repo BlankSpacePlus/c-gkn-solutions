@@ -15,6 +15,7 @@
 - [Chapter10 泛化编程与预编译](/Chapter10.md)
 - [Chapter11 数据存储与文件](/Chapter11.md)
 - [Chapter12 程序设计思想及范例](/Chapter12.md)
+- [Chapter13 面向对象与C++基础](/Chapter13.md)
 
 ## 说明
 
