@@ -16,6 +16,8 @@
 - [Chapter11 数据存储与文件](/Chapter11.md)
 - [Chapter12 程序设计思想及范例](/Chapter12.md)
 - [Chapter13 面向对象与C++基础](/Chapter13.md)
+- [Chapter14 高性能计算与并行程序设计](/Chapter14.md)
+- [Chapter15 个体软件过程管理](/Chapter15.md)
 
 ## 说明
 
