@@ -14,6 +14,7 @@
 - [Chapter09 复杂数据类型与结构体](/Chapter09.md)
 - [Chapter10 泛化编程与预编译](/Chapter10.md)
 - [Chapter11 数据存储与文件](/Chapter11.md)
+- [Chapter12 程序设计思想及范例](/Chapter12.md)
 
 ## 说明
 
@@ -29,3 +30,47 @@
 可以使用malloc()为含有动态数组成员的结构体变量动态地分配内存空间，所分配的内存空间一般应大于结构体的大小。
 
 3.对匿名结构体成员的引用与普通成员相同。
+
+4.位运算举例：
+- 判断偶数：`x&1==0`
+- (已知偶数)数值+1：`x=x|1`
+- a的低字节+b的高字节得到c：`(a&0x00ff)<<8|(a&0xff00)>>8`
+- 交换两个整数：`a=a^b; b=a^b; a=a^b;`
+
+5.三种方式不使用分号输出HelloWorld：
+```c
+#include <stdio.h>
+
+int main() {
+    if(printf("HelloWorld")){}
+    return 0;
+}
+```
+```c
+#include <stdio.h>
+
+int main() {
+    switch(printf("HelloWorld")){}
+    return 0;
+}
+```
+```c
+#include <stdio.h>
+
+int main() {
+    while(!printf("HelloWorld")){}
+    return 0;
+}
+```
+
+6.不直接定义main函数的可执行C源码：
+```c
+#include<stdio.h>
+
+#define start main
+
+int start() {
+    printf("HelloWorld");
+    return 0;
+}
+```
