@@ -67,8 +67,7 @@ int main() {
 10.代码如下：
 ```cpp
 #include <iostream>
-#include <utility>
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 
