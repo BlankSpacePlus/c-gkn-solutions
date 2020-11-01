@@ -252,43 +252,181 @@ int main() {
 【直接插入排序】
 
 ```c
+void insertSort(int a[], int n) {
+    int i, j, temp;
+    for (i = 1; i < n; ++i) {
+        temp = a[i];
+        j = i - 1;
+        while (j >= 0 && temp < a[j]) {
+            a[j+1] = a[j];
+            --j;
+        }
+        a[j+1] = temp;
+    }
 
+}
 ```
 
 【冒泡排序】
 
 ```c
-
+void bubbleSort(int a[], int n) {
+    int i, j, flag, temp;
+    for (i = n-1; i >= 1; --i) {
+        flag = 0;
+        for (j = 1; j <= i; ++j) {
+            if (a[j-1] >a[j]) {
+                temp = a[j];
+                a[j] = a[j-1];
+                a[j-1] = temp;
+                flag = 1;
+            }
+        }
+        if (!flag) {
+            return;
+        }
+    }
+}
 ```
 
 【选择排序】
 
 ```c
-
+void selectSort(int a[], int n) {
+    int i, j, k, temp;
+    for (i = 0; i < n; ++i) {
+        k = i;
+        for (j = i+1; j < n; ++j) {
+            if (a[k] > a[j]) {
+                k = j;
+            }
+        }
+        temp = a[i];
+        a[i] = a[k];
+        a[k] = temp;
+    }
+}
 ```
 
 【希尔排序】
 
 ```c
-
+void shellSort(int a[], int n) {
+    int i, j, k;
+    for (i = n/2; i >= 1; i /= 2) {
+        for (j = i+1; j <= n; ++j) {
+            if (a[j] < a[j-i]) {
+                a[0] = a[j];
+                for (k = j-i; k>0 && a[0]<a[k]; k-=i) {
+                    a[k+i] = a[k];
+                }
+                a[k+i] = a[0];
+            }
+        }
+    }
+}
 ```
 
 【归并排序】
 
 ```c
+void merge(int a[], int b[], int low, int mid, int high) {
+    int i, j, k;
+    for (i = low; i <= high; ++i) {
+        b[i] = a[i];
+    }
+    for (i = low, j = mid+1, k = i; i<=mid && j<=high; ++k) {
+        if (b[i] <= b[j]) {
+            a[k] = b[i++];
+        } else {
+            a[k] = b[j++];
+        }
+        while (i <= mid) {
+            a[k++] = b[i++];
+        }
+        while (j <= high) {
+            a[k++] = b[j++];
+        }
+    }
+}
 
+void mergeSort(int a[], int low, int high, int n) {
+    // 辅助数组
+    int *b = (int *)malloc((n+1)*sizeof(int));
+    if (low < high) {
+        int mid = (low + high) / 2;
+        mergeSort(a, low, mid, n);
+        mergeSort(a, mid+1, high, n);
+        merge(a, b, low, mid, high);
+    }
+}
 ```
 
 【堆排序】
 
 ```c
+void shift(int a[], int low, int high) {
+    int i = low, j = 2*i, temp = a[i];
+    while (j <= high) {
+        if (j < high && a[j] < a[j+1]) {
+            ++j;
+        }
+        if (temp < a[j]) {
+            a[i] = a[j];
+            i = j;
+            j = 2*i;
+        } else {
+            break;
+        }
+    }
+    a[i] = temp;
+}
 
+void heapSort(int a[], int n) {
+    int i, temp;
+    // 建堆
+    for (i = n/2; i >= 1; --i) {
+        shift(a, i, n);
+    }
+    // 堆排序
+    for (i = n; i >= 2; --i) {
+        temp = a[1];
+        a[1] = a[i];
+        a[i] = temp;
+        shift(a, 1, i-1);
+    }
+}
 ```
 
 【快速排序】
 
 ```c
-
+void quickSort(int a[], int low, int high) {
+    int temp;
+    int i = low, j = high;
+    if (low < high) {
+        temp = a[low];
+        while (i < j) {
+            while (j > i && a[j] >= temp) {
+                --j;
+            }
+            if (i < j) {
+                a[i] = a[j];
+                ++i;
+            }
+            while (i < j && a[i] < temp) {
+                ++i;
+            }
+            if (i < j) {
+                a[j] = a[i];
+                --j;
+            }
+        }
+        a[i] = temp;
+        quickSort(a, low, i-1);
+        quickSort(a, i+1, high);
+    }
+}
 ```
 
 ### 查找问题
