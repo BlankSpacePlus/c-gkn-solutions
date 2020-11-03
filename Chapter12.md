@@ -275,7 +275,7 @@ void bubbleSort(int a[], int n) {
     for (i = n-1; i >= 1; --i) {
         flag = 0;
         for (j = 1; j <= i; ++j) {
-            if (a[j-1] >a[j]) {
+            if (a[j-1] > a[j]) {
                 temp = a[j];
                 a[j] = a[j-1];
                 a[j-1] = temp;
@@ -584,52 +584,339 @@ void matrixTranspose(int a[M][N], int b[M][N]) {
 
 1.代码如下：
 ```c
+#include <stdio.h>
 
+int main() {
+    int i, n;
+    double result = 1, temp = 1;
+    scanf("%d", &n);
+    for (i = 1; i <= 1000; i++) {
+        temp *= n;
+        result += 1/temp;
+    }
+    printf("结果是%.6f", result);
+    return 0;
+}
 ```
 
 2.代码如下：
 ```c
+#include <stdio.h>
+#include <math.h>
 
+double derivative(double x) {
+    return 6*x*x - 8*x + 1;
+}
+
+double function(double x) {
+    return 2*x*x*x - 4*x*x + x - 2;
+}
+
+int main() {
+    double x, x0, fx, f;
+    x = 1.5;
+    do {
+        x0 = x;
+        fx = function(x0);
+        f = derivative(x);
+        x = x0 - fx/f;
+    } while (fabs(x-x0) >= 1e-6);
+    printf("方程的根为%lf", x0);
+    return 0;
+}
 ```
 
 3.代码如下：
 ```c
+#include <stdio.h>
+#include <math.h>
 
+double derivative(double x) {
+    return -sin(x) - 1;
+}
+
+double function(double x) {
+    return cos(x) - x;
+}
+
+int main() {
+    double x, x0, fx, f;
+    x = 0;
+    do {
+        x0 = x;
+        fx = function(x0);
+        f = derivative(x);
+        x = x0 - fx/f;
+    } while (fabs(x-x0) >= 1e-6);
+    printf("方程的根为%lf", x0);
+    return 0;
+}
 ```
 
 4.代码如下：
 ```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+int main() {
+    int i, j, n = 1000, flag1 = 1, flag2 = 1, temp_len;
+    char str[20];
+    for (i = 2; i < n; ++i) {
+        flag1 = 1;
+        flag2 = 1;
+        for (j = 2; j < i; ++j) {
+            if (i % j == 0) {
+                flag1 = 0;
+                break;
+            }
+        }
+        if (flag1) {
+            itoa(i, str, 10);
+            temp_len = strlen(str);
+            for (j = 0; j < temp_len/2; ++j) {
+                if (str[j] != str[temp_len-j-1]) {
+                    flag2 = 0;
+                    break;
+                }
+            }
+            if (flag2) {
+                printf("%d是回文素数\n", i);
+            }
+        }
+    }
+    return 0;
+}
 ```
 
 5.代码如下：
 ```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+int fun(int x) {
+    unsigned i = x;
+    int a_len, b_len, j;
+    char a[1000], b[1000];
+    ulltoa(i, a, 10);
+    ulltoa(i*i, b, 10);
+    a_len = strlen(a);
+    b_len = strlen(b);
+    for (j = 0; j < a_len; j++) {
+        if (a[a_len-1-j] != b[b_len-1-j]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    int i, n;
+    scanf("%d", &n);
+    for (i = 1; i <= n; i++) {
+        if (fun(i)) {
+            printf("%d是同构数\n", i);
+        }
+    }
+    return 0;
+}
 ```
 
 6.代码如下：
 ```c
+#include <stdio.h>
 
+int main() {
+    int n = 10, nums[] = {1, -20, 31, 14, 29, 7, -1, -4, -12, 16}, i, j, temp;
+    for (i = 0; i < n; i++) {
+        printf("%d ", nums[i]);
+    }
+    for (i = 0; i < n; i++) {
+        for (j = i+1; j < n; j++) {
+            // 没考虑0
+            if (nums[i] < 0 && nums[j] > 0) {
+                temp = nums[j];
+                nums[j] = nums[i];
+                nums[i] = temp;
+            }
+        }
+    }
+    printf("\n");
+    for (i = 0; i < n; i++) {
+        printf("%d ", nums[i]);
+    }
+    return 0;
+}
 ```
 
 7.代码如下：
 ```c
+#include <stdio.h>
 
+long long compose(long long m, long long n) {
+    if (m > n/2) {
+        m = n-m;
+    }
+    if (m == 1) {
+        return n;
+    }
+    return compose(m, n-1) + compose(m-1, n-1);
+}
+
+int main() {
+    printf("%lld\n", compose(2, 5));
+    printf("%lld\n", compose(3, 5));
+    printf("%lld\n", compose(1, 4));
+    return 0;
+}
 ```
 
 8.代码如下：
 ```c
+#include <stdio.h>
+#include <string.h>
 
+void sort(char *s) {
+    int i, j, flag, temp, n = strlen(s);
+    for (i = n-1; i >= 1; --i) {
+        flag = 0;
+        for (j = 1; j <= i; ++j) {
+            if (s[j-1] < s[j]) {
+                temp = s[j];
+                s[j] = s[j-1];
+                s[j-1] = temp;
+                flag = 1;
+            }
+        }
+        if (!flag) {
+            return;
+        }
+    }
+}
+
+void merge(char *s1, char *s2) {
+    int i, j, flag, len1 = strlen(s1), len2 = strlen(s2), ptr = 0;
+    char str[len1+len2];
+    for (i = 0; i < len1; i++) {
+        flag = 1;
+        for (j = 0; j < ptr; j++) {
+            if (s1[i] == str[j]) {
+                flag = 0;
+                break;
+            }
+        }
+        if (flag) {
+            str[ptr++] = s1[i];
+        }
+    }
+    for (i = 0; i < len2; i++) {
+        flag = 1;
+        for (j = 0; j < ptr; j++) {
+            if (s2[i] == str[j]) {
+                flag = 0;
+                break;
+            }
+        }
+        if (flag) {
+            str[ptr++] = s2[i];
+        }
+    }
+    sort(str);
+    strcpy(s1, str);
+}
+
+int main() {
+    char str1[] = "abhkchabeiancaka", str2[] = "123njlasknvie456";
+    merge(str1, str2);
+    printf("%s\n", str1);
+    return 0;
+}
 ```
 
 9.代码如下：
 ```c
+#include <stdio.h>
 
+void bubbleSort(int a[], int n) {
+    int i, j, flag, temp;
+    for (i = n-1; i >= 1; --i) {
+        flag = 0;
+        for (j = 1; j <= i; ++j) {
+            if (a[j-1] < a[j]) {
+                temp = a[j];
+                a[j] = a[j-1];
+                a[j-1] = temp;
+                flag = 1;
+            }
+        }
+        if (!flag) {
+            return;
+        }
+    }
+}
+
+int main() {
+    int n = 7, a[] = {10, 30, 100, 12, 53, 24, 65}, i;
+    for (i = 0; i < n; i++) {
+        printf("%d ", a[i]);
+    }
+    bubbleSort(a, n);
+    printf("\n");
+    for (i = 0; i < n; i++) {
+        printf("%d ", a[i]);
+    }
+    return 0;
+}
 ```
 
 10.代码如下：
 ```c
+#include <stdio.h>
 
+int main() {
+    int n = 10, i, j, flag = 0, flag1, flag2, flag3, flag4, nums[10][10] = {
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 1, 0, 0, 0, 0}
+    };
+    for (i = 0; i < n; i++) {
+        flag1 = 1;
+        flag2 = 1;
+        flag3 = 1;
+        flag4 = 1;
+        for (j = 0; j < n; j++) {
+            if (nums[i][j] != 0) {
+                flag1 = 0;
+            }
+            if (nums[j][i] != 0) {
+                flag2 = 0;
+            }
+            if (nums[i][i] != 0) {
+                flag3 = 0;
+            }
+            if (nums[i][n-i-1] != 0) {
+                flag4 = 0;
+            }
+        }
+        if (flag1 || flag2 || flag3 || flag4) {
+            printf("图像包含直线\n");
+            flag = 1;
+            break;
+        }
+    }
+    if (!flag) {
+        printf("图像不包含直线\n");
+    }
+    return 0;
+}
 ```
 
 [Chapter13 面向对象与C++基础](/Chapter13.md)
